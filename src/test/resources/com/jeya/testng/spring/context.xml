@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns:context="http://www.springframework.org/schema/context"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 	<bean id="foo" class="com.jeya.testng.spring.Foo">
 		<property name="name" value="TestNG Spring"/>
 	</bean>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://CWLK-JEYAGEN\MSSQL2017:1433;DatabaseName=JayJayDB" />
+		<property name="username" value="UserJayJay" />
+		<property name="password" value="JJ" />
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<jdbc:initialize-database data-source="dataSource" enabled="true">
+		<jdbc:script location="classpath:com/jeya/testng/spring/db-schema.sql" />
+	</jdbc:initialize-database>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" autowire="byName" />
 </beans>

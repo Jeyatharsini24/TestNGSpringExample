@@ -29,6 +29,34 @@ Foo bean is tested:
 Spring loads the context and caches it by default so that once loaded the test methods can directly access it from cache ==> Improvement in performance if the beans
 being loaded take time to initialize.
 
+**********
+
 Default behavior: Spring caches the context, so once a test method finishes its execution, the next test method to be run uses the same context as one before it.
 Override this default behavior by using the @DirtiesContext. It will mark the cache as dirty and the context will be created and re-cached before execution of the next
 test method.
+
+**********
+
+TestNG Spring transaction integration:
+
+-run each test method within a transaction.
+-default: the transaction is rolled back after the test method's execution.
+this behavior can be overridden or one can explicitly commit the transaction.
+-MSSQL has been used as database.
+
+create the following table:
+
+drop table if exists 'employee';
+CREATE TABLE employee (
+	  name VARCHAR(20) NOT NULL,
+	  PRIMARY KEY(name)
+);
+
+INSERT INTO employee VALUES('Joe');
+INSERT INTO employee VALUES('Sam');
+INSERT INTO employee VALUES('John');
+
+-Since we are going to run our test methods within a transaction, the context file should contain inject datasource and transactionManager beans.
+-Schema is initialized in jdbc:initialize-database
+
+Window -> Preferences -> Installed JRES -> A JRE which is concord with JDBC driver should be selected.
