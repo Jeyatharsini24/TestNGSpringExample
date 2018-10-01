@@ -11,3 +11,7 @@ public class Foo {
 		this.name = name;
 	}	
 }
+
+/**
+Inject this bean to test instance and then verify its value
+*/

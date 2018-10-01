@@ -1,0 +1,27 @@
+https://examples.javacodegeeks.com/enterprise-java/testng/testng-spring-integration-example/
+
+goadl of Spring's integration in testing framework: (Spring TestContext framework)
+
+1. Manage Spring IoC container caching between test execution.
+2. Provide Dependency Injection of test fixture instances.
+3. Provide transaction management appropriate to integration testing.
+
+-In Spring 2.5 and later, unit and integration testing support is provided in the form of annotation-driven Spring TestContext framework.
+
+-TestContextManager takes care of the test integration. But there is a layer to bind the testing framework to the Spring's integration testing framework.
+This layer contains two abstract classes:
+1. AbstractTestNGSpringContextTests : integrates the Spring TestContext framework with explicit ApplicationContext (protected member)
+2. AbstractTransactionalTestNGSpringContextTests : (extends AbstractTestNGSpringContextTests) provides transactional support and some convenience functioanlity for
+JDBC access.
+
+Dependencies:
+1. Spring-context: loading ApplicationContext
+2. Spring-test: accessing Spring's testing framework
+3. Spring-jdbc: JdbcTemplate and DataSource support
+4. Mysql-connector-java: MySql driver
+5. Testng: testing tool
+
+Foo bean is tested:
+-Foo instance is injected into test instance and its value is verified.
+-The test instance goes through the Spring machinery for the dependency injection and the initialization of the test instance.
+-The factory callbacks such as setBeanName, setBeanFactory and the bean post processors are applied on the test instance.
