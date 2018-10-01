@@ -4,5 +4,10 @@
     <classes>
       <class name="com.jeya.testng.spring.SpringTestNGDependencyInjectionExample"/>
     </classes>
-  </test>  
+  </test>
+  <test name="TestNGSpringIntegrationTest2">
+    <classes>
+      <class name="com.jeya.testng.spring.SpringTestNGContextCacheExample"/>
+    </classes>
+  </test>    
 </suite>

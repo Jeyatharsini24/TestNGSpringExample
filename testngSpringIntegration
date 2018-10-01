@@ -25,3 +25,10 @@ Foo bean is tested:
 -Foo instance is injected into test instance and its value is verified.
 -The test instance goes through the Spring machinery for the dependency injection and the initialization of the test instance.
 -The factory callbacks such as setBeanName, setBeanFactory and the bean post processors are applied on the test instance.
+
+Spring loads the context and caches it by default so that once loaded the test methods can directly access it from cache ==> Improvement in performance if the beans
+being loaded take time to initialize.
+
+Default behavior: Spring caches the context, so once a test method finishes its execution, the next test method to be run uses the same context as one before it.
+Override this default behavior by using the @DirtiesContext. It will mark the cache as dirty and the context will be created and re-cached before execution of the next
+test method.
