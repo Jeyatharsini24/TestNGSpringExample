@@ -21,6 +21,9 @@ public class SpringTestNGContextCacheExample extends AbstractTestNGSpringContext
 
 	private ApplicationContext dirtiedApplicationContext;
 
+	/**
+	 * nameFromSpring value is saved initially so that it can be compared later
+	 */
 	@BeforeClass
 	private void saveFooName() {
 		nameFromSpring = foo.getName();
@@ -28,6 +31,9 @@ public class SpringTestNGContextCacheExample extends AbstractTestNGSpringContext
 		Assert.assertEquals(nameFromSpring, "TestNG Spring");
 	}
 	
+	/**
+	 * annotated with @DirtiesContext so the context in cache gets marked as dirty.
+	 */
 	@Test
 	@DirtiesContext
 	public void removeFromCache()
@@ -39,6 +45,10 @@ public class SpringTestNGContextCacheExample extends AbstractTestNGSpringContext
 		System.out.println("removeFromCache: annotated @DirtiesContext so context will be marked for removal in afterMethod ");
 	}
 	
+	/**
+	 * depends on removeFromCache. It will check that foo name is still the default one. value will be reset since removeFromCache marked cache as dirty
+	 * and verifyContextNew loads value again.
+	 */
 	@Test(dependsOnMethods = {"removeFromCache"})
 	public void verifyContextNew()
 	{
@@ -51,5 +61,17 @@ public class SpringTestNGContextCacheExample extends AbstractTestNGSpringContext
         
         foo.setName(MODIFIED_FOO_NAME);
         System.out.println("verifyContextNew: modify foo name to '" + MODIFIED_FOO_NAME + "'");
+	}
+	
+	/**
+	 * verifies that context value is still the cached one
+	 */
+	@Test(dependsOnMethods = {"verifyContextNew"})
+	public void verifyContextSame()
+	{
+		System.out.println("verifyContextSame: is context cached? " + (dirtiedApplicationContext == applicationContext));
+		Assert.assertSame(this.applicationContext, this.dirtiedApplicationContext, "The application context should NOT have been 'dirtied'.");
+		System.out.println("verifyContextSame: foo name is '" + foo.getName());
+        Assert.assertEquals(foo.getName(), MODIFIED_FOO_NAME);
 	}
 }
