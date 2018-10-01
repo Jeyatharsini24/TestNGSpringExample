@@ -9,5 +9,10 @@
     <classes>
       <class name="com.jeya.testng.spring.SpringTestNGContextCacheExample"/>
     </classes>
+  </test>
+  <test name="TestNGSpringIntegrationTest3">
+    <classes>
+      <class name="com.jeya.testng.spring.SpringTestNGTransactionExample"/>
+    </classes>
   </test>    
 </suite>
